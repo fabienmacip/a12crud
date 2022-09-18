@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Product } from '../models/product';
 import { CrudService } from '../services/crud.service';
 
 @Component({
@@ -8,11 +10,27 @@ import { CrudService } from '../services/crud.service';
 })
 export class ProductDetailsComponent implements OnInit {
 
+  productDetails!: Product;
+
   constructor(
-    private crudService: CrudService
+    private crudService: CrudService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    let productId = '';
+    if(this.activatedRoute.snapshot.params['productId']){
+      productId = this.activatedRoute.snapshot.params['productId'];
+      if(productId != ''){
+        this.loadProductDetails(productId);
+      }
+    };
+  }
+
+  loadProductDetails(productId: string){
+    this.crudService.loadProductInfo(productId).subscribe(res => {
+      this.productDetails = res;
+    });
   }
 
 }

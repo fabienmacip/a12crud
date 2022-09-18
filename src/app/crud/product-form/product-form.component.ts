@@ -30,7 +30,6 @@ export class ProductFormComponent implements OnInit {
         this.loadProductDetails(productId);
       }
     };
-
   }
 
   createProductForm(){
