@@ -6,6 +6,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { AgGridModule } from 'ag-grid-angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -18,7 +19,9 @@ import { AgGridModule } from 'ag-grid-angular';
   imports: [
     CommonModule,
     CrudRoutingModule,
-    AgGridModule
+    AgGridModule,
+    FormsModule,
+    ReactiveFormsModule
     /* AgGridModule.withComponents([ProductListComponent]) */
   ]
 })
