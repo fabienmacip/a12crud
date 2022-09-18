@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CrudService } from '../services/crud.service';
 
 @Component({
   selector: 'app-product-list',
@@ -19,7 +20,9 @@ export class ProductListComponent implements OnInit {
     { make: 'Peujot', model: '106', price: 25000 }
   ];
 
-  constructor() { }
+  constructor(
+    private crudService: CrudService
+  ) { }
 
   ngOnInit(): void {
   }
