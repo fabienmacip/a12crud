@@ -56,7 +56,7 @@
           <span *ngIf="productForm.controls['price'].errors?.['maxlength']">Maximum 8 caractères</span>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary" (click)="createProduct(productForm.value, false)">Submit</button>
+      <button type="submit" class="btn btn-primary" (click)="createProduct(productForm.value)">{{ sendButton }}</button>
     </form>
   </div>
 </div>
