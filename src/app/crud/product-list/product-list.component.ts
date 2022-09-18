@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CrudService } from '../services/crud.service';
 
 @Component({
@@ -25,7 +26,7 @@ export class ProductListComponent implements OnInit {
       headerName: 'Actions',
       headerClass: 'header-cell',
       width: 250,
-      cellRenderer: this.actionRender }
+      cellRenderer: this.actionRender.bind(this) }
   ];
 
   rowData: any = [];
@@ -37,7 +38,8 @@ export class ProductListComponent implements OnInit {
   productListSubscribe: any;
 
   constructor(
-    private crudService: CrudService
+    private crudService: CrudService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -51,13 +53,37 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  actionRender() {
+  actionRender(params: any) {
     let div = document.createElement('div');
     let htmlCode = '<button type="button" class="btn btn-success">Voir</button>\n' +
     '<button type="button" class="btn btn-warning">Modifier</button>\n' +
     '<button type="button" class="btn btn-danger">Effacer</button>\n';
     div.innerHTML = htmlCode;
+    let viewButton = div.querySelector('.btn-success');
+    viewButton?.addEventListener('click', () => {
+      this.viewProductDetails(params);
+    });
+    let editButton = div.querySelector('.btn-warning');
+    editButton?.addEventListener('click', () => {
+      this.editProductDetails(params);
+    });
+    let deleteButton = div.querySelector('.btn-danger');
+    deleteButton?.addEventListener('click', () => {
+      this.deleteProduct(params);
+    });
+
     return div;
   }
 
+  viewProductDetails(params: any){
+    this.router.navigate(['/crud/view-product-details/' + params.data.p_id])
+  }
+
+  editProductDetails(params: any){
+    this.router.navigate(['/crud/update-product/' + params.data.p_id])
+  }
+
+  deleteProduct(params: any){
+    console.log('Delete');
+  }
 }
