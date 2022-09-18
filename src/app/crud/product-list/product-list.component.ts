@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CrudService } from '../services/crud.service';
 
+declare const Swal: any;
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -21,7 +22,8 @@ export class ProductListComponent implements OnInit {
     { field: 'p_price',
       headerName: 'Prix',
       sortable: true,
-      headerClass: 'header-cell' },
+      headerClass: 'header-cell',
+      cellRenderer: this.priceCellRender.bind(this) },
     { field: '',
       headerName: 'Actions',
       headerClass: 'header-cell',
@@ -83,7 +85,34 @@ export class ProductListComponent implements OnInit {
     this.router.navigate(['/crud/update-product/' + params.data.p_id])
   }
 
+  priceCellRender(params: any){
+    return params.data.p_price + ' €';
+  }
+
   deleteProduct(params: any){
-    console.log('Delete');
+    const that = this;
+    Swal.fire({
+      title: 'Etes-vous sûr(e) de vouloir effacer ce produit ?',
+      text: "Cette opération est irréversible !",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui, effacer !'
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        that.crudService.deleteProduct(params.data.p_id).subscribe(res => {
+          if(res.result === 'success'){
+            this.getProductList();
+            Swal.fire(
+              'Effacé !',
+              'Ce produit a été effacé',
+              'success'
+            )
+          }
+        });
+      }
+    })
   }
 }

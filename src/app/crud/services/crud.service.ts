@@ -35,5 +35,9 @@ export class CrudService {
     return this.httpClient.post<HttpResponse>(url, data).pipe(map((data: any) => data));
   }
 
+  deleteProduct(productId: any): Observable<HttpResponse> {
+    const url = environment.API_EndPoint + 'delete.php?id=' + productId;
+    return this.httpClient.get<HttpResponse>(url).pipe(map((data: any) => data));
+  }
 
 }
